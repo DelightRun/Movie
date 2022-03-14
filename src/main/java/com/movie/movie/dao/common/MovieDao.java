@@ -3,6 +3,7 @@ package com.movie.movie.dao.common;
  * 电影信息管理数据库操作层
  */
 
+import com.movie.movie.bean.MovieType;
 import com.movie.movie.entity.common.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,11 +17,14 @@ import java.util.List;
 @Repository
 public interface MovieDao extends JpaRepository<Movie, Long> {
 
-    @Query(value = "select * from movie_movie where show_time <= :showTime and is_show = 1 order by rate desc limit 0,:size", nativeQuery = true)
+    @Query(value = "select * from movie_movie where show_time <= :showTime and is_show = 1 and id IN :ids", nativeQuery = true)
+    List<Movie> findShowListByIds(@Param("showTime") Date showTime, @Param("ids") List<Long> ids);
+
+    @Query(value = "select * from movie_movie where show_time <= :showTime and is_show = 1 order by show_time limit 0,:size", nativeQuery = true)
     List<Movie> findList(@Param("showTime") Date showTime, @Param("size") Integer size);
 
-    @Query(value = "select * from movie_movie where show_time <= :showTime and  movie_movie.type = :moiveType and is_show = 1 order by rate desc limit 0,:size", nativeQuery = true)
-    List<Movie> findByType(@Param("showTime") Date showTime, @Param("size") Integer size, @Param("moiveType") String moiveType);
+    @Query(value = "select * from movie_movie where show_time <= :showTime and type LIKE %:movieType% and is_show = 1 order by rate desc limit 0,:size", nativeQuery = true)
+    List<Movie> findByType(@Param("showTime") Date showTime, @Param("movieType") String movieType, @Param("size") Integer size);
 
     @Query(value = "select * from movie_movie where video is not null and video <> ''  and is_show = 1 order by rate desc limit 0,:size", nativeQuery = true)
     List<Movie> findVideoList(@Param("size") Integer size);

@@ -60,23 +60,23 @@
     <div class="container fn-clear">
             <div class="film-pics-detail">
                 <ul class="fn-clear">
-                            <#if movie.video?? && movie.video?length gt 0>
-                            <li>
-                                <a class="filmVideo">
-                                	<img src="/photo/view?filename=${movie.mainPic}" width="150" height="100" /></a>
-                                <a href="javascript:void(0)" rel="#verlayVideo" class="video-play"></a>
-                            </li>
+                    <#if movie.video?? && movie.video?length gt 0>
+                    <li>
+                        <a class="filmVideo">
+                             <img src="/photo/view?filename=${movie.mainPic}" width="150" height="100" /></a>
+                        <a href="javascript:void(0)" rel="#verlayVideo" class="video-play"></a>
+                    </li>
+                    </#if>
+                    <#list movie.pictureList as pic>
+                        <li>
+                            <a rel="#verlayPics" href="javascript:void(0)" class="filmPics">
+                                 <img data-index="0" src="/photo/view?filename=${pic}" width="150" height="100" />
+                            </a>
+                            <#if pic_index gt 2>
+                            <#break>
                             </#if>
-                            <#list movie.pictureList as pic>
-                                <li>
-                                    <a rel="#verlayPics" href="javascript:void(0)" class="filmPics">
-                                    	<img data-index="0" src="/photo/view?filename=${pic}" width="150" height="100" />
-                                    </a>
-                                    <#if pic_index gt 2>
-                                    <#break>
-                                    </#if>
-                                </li>
-                            </#list>
+                        </li>
+                    </#list>
 
                 </ul>
                 <div class="total">
@@ -90,7 +90,24 @@
                     </p>
                 </div>
             </div>
-                    <div class="film-schedule-detail pt30">
+
+            <#if relatedMovieList?size != 0>
+            <div class="hot-film-index pt30">
+                <div class="title">
+                    <span class="titb">相关推荐</span>
+                </div>
+                <ul class="fn-clear slides">
+                    <#list relatedMovieList as relatedMovie>
+                    <li>
+                        <a href="/home/movie/detail?id=${relatedMovie.id}" title="${relatedMovie.name}" target="_blank"><img src="/photo/view?filename=${relatedMovie.mainPic}" alt="${relatedMovie.name}" /></a>
+                        <a class="overhide" href="/home/movie/detail?id=${relatedMovie.id}" title="${relatedMovie.name}" target="_blank">${relatedMovie.name}</a>
+                    </li>
+                    </#list>
+                </ul>
+            </div>
+            </#if>
+
+            <div class="film-schedule-detail pt30">
                 <div class="schedule-filte">
                     <div class="title">
                         <span class="pq">排期购票</span>

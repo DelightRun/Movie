@@ -5,8 +5,9 @@ import com.movie.movie.constant.SessionConstant;
 import com.movie.movie.dao.common.MovieDao;
 import com.movie.movie.entity.common.Account;
 import com.movie.movie.entity.common.Movie;
-import com.movie.movie.entity.common.Order;
 import com.movie.movie.util.SessionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -25,10 +26,14 @@ import java.util.List;
  */
 @Service
 public class MovieService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private OrderService orderService;
     @Autowired
     private MovieDao movieDao;
+    @Autowired
+    private RecommendService recommendService;
 
     /**
      * 当movie的id不为空时进行编辑，当id为空时则进行添加
@@ -95,49 +100,32 @@ public class MovieService {
      * @return
      */
     public List<Movie> findTopList(Integer size) {
+        Account account = (Account) SessionUtil.get(SessionConstant.SESSION_ACCOUNT_LOGIN_KEY);
+        if (account == null) return movieDao.findList(new Date(), size);
         try {
-            Account account = (Account) SessionUtil.get(SessionConstant.SESSION_ACCOUNT_LOGIN_KEY);
-            List<Order> orderList = orderService.findAll(account.getId());
-            List<Movie> list = new ArrayList<>();
-            if (orderList.size() == 0) {
-                list = movieDao.findList(new Date(), size);
-            } else {
-                List<Movie> movieList = new ArrayList<>();
-                for (Order order : orderList) {
-                    order.getCinemaHallSession().getMovie().getType();
-                    List<Movie> movieList1 = movieDao.findByType(new Date(), size, order.getCinemaHallSession().getMovie().getType());
-                    for (int i = 0; i < movieList1.size(); i++) {
-                        int k = 0;
-                        for (int j = 0; j < movieList.size(); j++) {
-                            if (movieList.get(j).getId() == movieList1.get(i).getId()) {
-                                k++;
-                            }
-                        }
-                        if (k == 0) {
-                            movieList.add(movieList1.get(i));
-                        }
-                    }
-                }
-                List<Movie> movieList2 = movieDao.findList(new Date(), size);
-                for (int i = 0; i < movieList2.size(); i++) {
-                    int k = 0;
-                    for (int j = 0; j < movieList.size(); j++) {
-                        if (movieList.get(j).getId() == movieList2.get(i).getId()) {
-                            k++;
-                        }
-                    }
-                    if (k == 0) {
-                        movieList.add(movieList2.get(i));
-                    }
-                }
-                list = movieList;
-            }
-            System.out.println("*************************************************");
-            return list;
+            return recommendService.recommendForUser(account, size);
         } catch (Exception e) {
+            logger.error("recommendForUser failed, use default implementation.");
+            e.printStackTrace();
             return movieDao.findList(new Date(), size);
         }
+    }
 
+    /**
+     * 获取相关推荐
+     *
+     * @return
+     * @params movie
+     * @params size
+     */
+    public List<Movie> findRelatedList(Movie movie, Integer size) {
+        try {
+            return recommendService.recommendForMovie(movie, size);
+        } catch (Exception e) {
+            logger.error("recommendForMovie failed, use default implementation.");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     /**

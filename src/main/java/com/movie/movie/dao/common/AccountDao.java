@@ -21,5 +21,4 @@ public interface AccountDao extends JpaRepository<Account, Long> {
 
     @Query(value = "select a from Account a where a.sex =:sex ")
     List<Account> findsex(@Param("sex") int sex);
-
 }

@@ -3,6 +3,7 @@ package com.movie.movie.controller.home;
 import com.alibaba.fastjson.JSONArray;
 import com.movie.movie.bean.Result;
 import com.movie.movie.entity.common.CinemaHallSession;
+import com.movie.movie.entity.common.Movie;
 import com.movie.movie.entity.common.Order;
 import com.movie.movie.service.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,10 +70,11 @@ public class HomeMovieController {
      */
     @RequestMapping("/detail")
     public String detail(Model model, @RequestParam(name = "id", required = true) Long id) {
-        model.addAttribute("movie", movieService.findById(id));
-        model.addAttribute("topMovieList", movieService.findTopList(5));
-        model.addAttribute("distinctCinemaHallSessionList", cinemaHallSessionService.findDistinctCinemaByMovieId(id));
-        model.addAttribute("distinctShowDateCinemaHallSessionList", cinemaHallSessionService.findDistinctShowDateByMovieId(id));
+        Movie movie = movieService.findById(id);
+        model.addAttribute("movie", movie);
+        model.addAttribute("relatedMovieList", movieService.findRelatedList(movie, 6));
+        model.addAttribute("distinctCinemaHallSessionList", new ArrayList<CinemaHallSession>());// cinemaHallSessionService.findDistinctCinemaByMovieId(id));
+        model.addAttribute("distinctShowDateCinemaHallSessionList", new ArrayList<CinemaHallSession>());//cinemaHallSessionService.findDistinctShowDateByMovieId(id));
         model.addAttribute("commentList", movieCommentService.findByMovie(id));
         return "home/movie/detail";
     }

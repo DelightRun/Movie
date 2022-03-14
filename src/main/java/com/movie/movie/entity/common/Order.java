@@ -61,7 +61,6 @@ public class Order extends BaseEntity {
         this.sn = sn;
     }
 
-
     public CinemaHallSession getCinemaHallSession() {
         return cinemaHallSession;
     }

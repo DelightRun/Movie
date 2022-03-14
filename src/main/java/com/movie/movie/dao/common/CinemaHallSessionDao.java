@@ -20,7 +20,7 @@ public interface CinemaHallSessionDao extends JpaRepository<CinemaHallSession, L
     @Query(value = "select count(id) from movie_cinema_hall_session where cinema_id = :cinemaId and start_time > DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') GROUP BY movie_id", nativeQuery = true)
     List<Integer> getCinemaShowTotal(@Param("cinemaId") Long cinemaId);
 
-    @Query(value = "select * from movie_cinema_hall_session where movie_id = :movieId and start_time > DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') GROUP BY cinema_id", nativeQuery = true)
+    @Query(value = "select * from movie_cinema_hall_session where movie_id = :movieId and start_time > DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i')", nativeQuery = true)
     List<CinemaHallSession> findDistinctCinemaList(@Param("movieId") Long movieId);
 
     @Query(value = "select * from movie_cinema_hall_session where movie_id = :movieId and start_time > DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') GROUP BY show_date,cinema_id", nativeQuery = true)

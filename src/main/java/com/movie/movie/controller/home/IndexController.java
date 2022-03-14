@@ -8,6 +8,8 @@ import com.movie.movie.entity.common.Area;
 import com.movie.movie.service.common.*;
 import com.movie.movie.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/home/index")
 @Controller
 public class IndexController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AreaService areaService;
