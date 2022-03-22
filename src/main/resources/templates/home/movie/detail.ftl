@@ -115,19 +115,19 @@
                     </div>
                     <div class="cinema">
                         <ul class="fn-clear">
-                            <#if distinctCinemaHallSessionList?size == 0>
+                            <#if distinctCinemaList?size == 0>
                             	暂无影院
                             <#else>
-                            <#list distinctCinemaHallSessionList as cinemaHallSession>
+                            <#list distinctCinemaList as cinema>
                             <#if movie_area??>
-                            <#if movie_area.id == cinemaHallSession.cinema.area.cityId>
-                            <li data-cid="${cinemaHallSession.cinema.id}" data-address="${cinemaHallSession.cinema.address}" data-name="${cinemaHallSession.cinema.name}">
-                                <a href="javascript:void(0);">${cinemaHallSession.cinema.name}</a>
+                            <#if movie_area.id == cinema.area.cityId>
+                            <li data-cid="${cinema.id}" data-address="${cinema.address}" data-name="${cinema.name}">
+                                <a href="javascript:void(0);">${cinema.name}</a>
                             </li>
                             </#if>
                             <#else>
-                            <li data-cid="${cinemaHallSession.cinema.id}" data-address="${cinemaHallSession.cinema.address}" data-name="${cinemaHallSession.cinema.name}">
-                                <a href="javascript:void(0);">${cinemaHallSession.cinema.name}</a>
+                            <li data-cid="${cinema.id}" data-address="${cinema.address}" data-name="${cinema.name}">
+                                <a href="javascript:void(0);">${cinema.name}</a>
                             </li>
                             </#if>
                             </#list>
@@ -137,21 +137,13 @@
                     </div>
                     <div class="date">
                         <ul class="fn-clear film-date-list">
-                            <#if distinctShowDateCinemaHallSessionList?size == 0>
+                            <#if distinctShowDateList?size == 0>
                             	暂无排期
                             <#else>
-                            <#list distinctShowDateCinemaHallSessionList as cinemaHallSession>
-                            <#if movie_area??>
-                            <#if movie_area.id == cinemaHallSession.cinema.area.cityId>
-                            <li data-index="0" data-cid="${cinemaHallSession.cinema.id}">
-                                <a href="javascript:void(0);">${cinemaHallSession.showDate}</a>
+                            <#list distinctShowDateList as showDate>
+                            <li data-index="0" data-cid="${showDate}">
+                                <a href="javascript:void(0);">${showDate}</a>
                             </li>
-                            </#if>
-                            <#else>
-                            <li data-index="0" data-cid="${cinemaHallSession.cinema.id}">
-                                <a href="javascript:void(0);">${cinemaHallSession.showDate}</a>
-                            </li>
-                            </#if>
                             </#list>
                             </#if>
                         </ul>
@@ -162,8 +154,7 @@
                     <span class="titb"><a href="" id="focus-cinema"></a></span>
                     <span class="cor999 pl10" id="focus-cinema-address"></span>
                 </div>
-                <div class="schedule-list" id="focus-schedule-list">
-
+                <div class="schedule-list" id="focus-schedule-list" style="background-color: white;">
                 </div>
             </div>
         <div class="comment-hot-detail pt30 fn-clear">
@@ -348,41 +339,39 @@ isDisabled: true,
 bigStarsPath: '/home/images/ico_tb_stars.png'
 });
     $('.ypscore').jRating({
-rateMax: 10,
-isDisabled: true,
-bigStarsPath: '/home/images/ico_tb_stars.png'
-});
-    $('.score').each(function () {
-if ($(this).attr("data-average") != "0") {
-var html = "<span class='jscore'>" + $(this).attr("data-average") + "</span>";
-$(this).append(html);
-}
+        rateMax: 10,
+        isDisabled: true,
+        bigStarsPath: '/home/images/ico_tb_stars.png'
     });
-    $(".schedule-filte .cinema li").live('click', function () {
-$(this).siblings().removeClass("act").end().addClass("act");
-var cid = $(this).attr('data-cid')
-var name = $(this).attr('data-name')
-var address = $(this).attr('data-address')
-$(".film-date-list li").each(function (i, e) {
-if($(e).attr("data-cid") != cid) {
-$(e).addClass("fn-hide");
-}else{
-$(e).removeClass("fn-hide");
-}
+    $('.score').each(function () {
+        if ($(this).attr("data-average") != "0") {
+            var html = "<span class='jscore'>" + $(this).attr("data-average") + "</span>";
+            $(this).append(html);
+        }
+    });
+    function updateCinemaHallSessionList() {
+        var movieId = ${movie.id};
+        var cinemaNode = $(".schedule-filte .cinema li[class='act']");
+        var cinemaId = cinemaNode.attr("data-cid");
+        var cinemaName = cinemaNode.attr("data-name");
+        var cinemaAddr = cinemaNode.attr("data-address");
+        var showDate = $(".film-date-list li[class='act']").children("a").text();
+
+        $("#focus-cinema").text(cinemaName);
+        $("#focus-cinema").attr('href','/home/cinema/detail?id='+cinemaId);
+        $("#focus-cinema-address").text(cinemaAddr);
+        $.get("get_show_session",{mid: movieId, cid: cinemaId, showDate:showDate},function(data,status){
+            $("#focus-schedule-list").empty();
+            $("#focus-schedule-list").append(data);
         });
-        $("#focus-cinema").text(name);
-        $("#focus-cinema").attr('href','/home/cinema/detail?id='+cid);
-        $("#focus-cinema-address").text(address);
+    };
+    $(".schedule-filte .cinema li").live('click', function () {
+        $(this).siblings().removeClass("act").end().addClass("act");
+        updateCinemaHallSessionList();
     });
     $(".film-date-list li").live('click', function () {
-$(this).siblings().removeClass("act").end().addClass("act");
-var mid = ${movie.id};
-        var cid = $(".schedule-filte .cinema li[class='act']").attr("data-cid");
-        var showDate = $(this).children("a").text();
-    	$.get("get_show_session",{mid: mid, cid: cid, showDate:showDate},function(data,status){
-$("#focus-schedule-list").empty();
-$("#focus-schedule-list").append(data);
-});
+        $(this).siblings().removeClass("act").end().addClass("act");
+        updateCinemaHallSessionList();
     });
     $(".schedule-filte .cinema li:first").trigger("click");
     $(".film-date-list li:first").trigger("click");

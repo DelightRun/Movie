@@ -14,7 +14,6 @@
             <ul>
                 <li><a href="/home/account/user-center" title="个人中心" data-flag="<#if movie_account??>0<#else>1</#if>">个人中心</a></li>
                 <li><a href="/home/account/user-order-list" title="我的订单" data-flag="<#if movie_account??>0<#else>1</#if>">我的订单</a></li>
-
             </ul>
         </div>
     </div>
@@ -39,9 +38,8 @@
                 <li data-index="movie"><a href="/home/movie/list" style="color: white">电影</a></li>
                 <li data-index="cinema"><a href="/home/cinema/list"style="color: white">影院</a></li>
                 <li data-index="news"><a href="/home/news/list" style="color: white">通知公告</a></li>
-
+                <li data-index="about"><a href="/home/index/about" style="color: white">关于我们</a></li>
             </ul>
-
         </div>
     </div>
 </div>

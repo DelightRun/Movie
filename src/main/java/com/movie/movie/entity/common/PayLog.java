@@ -16,8 +16,9 @@ import java.math.BigDecimal;
 @EntityListeners(AuditingEntityListener.class)
 public class PayLog extends BaseEntity {
 
-    public final static int status_unpay = 0;//待支付
-    public final static int status_paid = 1;//已支付
+    public final static int status_unpay = 0; //待支付
+    public final static int status_paid = 1; //已支付
+    public final static int status_cancel = 2; // 已取消
     /**
      *
      */

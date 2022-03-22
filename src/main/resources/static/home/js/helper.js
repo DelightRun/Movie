@@ -197,7 +197,7 @@ function verifyautologin() {
         var Token = getCookie("LocalToken");
         if (isnull(Mobile) || isnull(Token))
             return;
-        
+
     }
 }
 verifyautologin();
@@ -208,6 +208,7 @@ function checkUrl(url) {
     if (pagename.indexOf("cinema") > -1) k = "cinema";
     if (pagename.indexOf("movie") > -1) k = "movie";
     if (pagename.indexOf("news") > -1) k = "news";
+    if (pagename.indexOf("about") > -1) k = "about";
     $(".nav-list li").removeClass("act").each(function (i) {
         if ($(this).attr("data-index") == k) {
             $(this).addClass("act");

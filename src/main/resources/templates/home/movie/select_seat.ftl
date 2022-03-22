@@ -153,7 +153,7 @@ var selectedSeatMax = ${selectedSeatMax};
 var selectedSeats;
 var orderSeats = ${orderSeatList!"[]"};
 function seatClick(e){
-if($(e).attr('status') = = 1){
+if($(e).attr('status') == 1){
 if($(e).attr('selected') != 'selected'){
 if($('td[selected="selected"]').length >= selectedSeatMax){
 alert('最多可选择' + selectedSeatMax + '个座位!')

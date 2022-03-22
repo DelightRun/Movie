@@ -26,7 +26,7 @@
             <div class="pay-record pt30">
                 <div class="title">充值记录</div>
                 <div class="fn-clear th">
-                    <span class="p1" style="width:160px;">时间</span>
+                    <span class="p1" style="width:200px;">时间</span>
                     <span class="p2" style="width:120px;">点数(1元=1点)</span>
                     <span class="p2" style="width:100px;">状态</span>
                     <span class="p3" style="width:120px;">充值方式</span>
@@ -35,9 +35,17 @@
                 <ul id="payrecordAccountUsercenter">
                 	<#list payLogList as payLog>
                 	<li style="padding-bottom:32px;">
-                		<span class="p1" style="width:160px;">${payLog.updateTime}</span>
+                		<span class="p1" style="width:200px;">${payLog.updateTime}</span>
 	                    <span class="p2" style="width:120px;">${payLog.money}点</span>
-	                    <span class="p2" style="width:100px;"><#if payLog.status == 0><font color="red">待支付</font><#else><font color="green">已支付</font></#if></span>
+	                    <span class="p2" style="width:100px;">
+                            <#if payLog.status == 0>
+                                <font color="red">待支付</font>
+                            <#elseif payLog.status == 1>
+                                <font color="green">已支付</font>
+                            <#else>
+                                <font color="gray">已取消</font>
+                            </#if>
+                        </span>
 	                    <span class="p3" style="width:120px;">${payLog.paymentType.getName()}</span>
 	                    <span class="p3" style="width:120px;margin-left:40px;">
 	                    	<#if payLog.status == 0>
@@ -48,9 +56,7 @@
                 	</#list>
                 </ul>
                     <#if payLogList?? && payLogList?size gt 0>
-                    <#else>
-                    <p class="error">暂无充值记录</p>
-                    </#if>
+                    <#else><p class="error">暂无充值记录</p></#if>
             </div>
         </div>
     </div>

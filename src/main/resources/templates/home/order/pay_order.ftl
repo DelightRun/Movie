@@ -70,15 +70,14 @@
         </div>
     </div>
     <div class="payment-payorder">
-        <div class="title">
-            选择支付方式</div>
+        <div class="title">选择支付方式</div>
         <div class="recommend fn-clear">
             <span class="tag">推荐方式：</span>
             <div class="con">
                 <ul>
                 	<li class="wd">
                 		<label class="account" style="width:370px;">
-	                		<input type="radio" name="payment" class="fn-left" data-paymethod="账户余额" data-payid="account" checked>
+	                		<input type="radio" name="payment" class="fn-left" data-paymethod="账户余额" data-payid="${movie_account.id}" checked>
 	                		<span class="fn-left">余额支付(可用余额：<em class="red" id="user-balance">${movie_account.balance}</em>元)</span>
                 		</label>
                 	</li>
@@ -93,7 +92,7 @@
                     <p class="p1">
                         <span>请在</span><span class="cuttime-show"></span><span>内完成支付</span></p>
                     <p>
-                        超时系统将自动取消订单</p>
+                    超时系统将自动取消订单</p>
                 </div>
                 <div class="pay">
                         <p>
@@ -133,28 +132,28 @@
 <#include "../common/login-dialog.ftl"/>
 <script type="text/javascript">
 $(document).ready(function(){
-countDown(parseInt("${leftTime}"), ".cuttime-show", "订单已超时", 1, 1);
-countDown(parseInt("${leftTime}"), ".cuttime-show2", "订单已超时", 1, 0);
-//点击支付按钮
-$("#btnpay").click(function(){
-var balance = ${movie_account.balance};
+    countDown(parseInt("${leftTime}"), ".cuttime-show", "订单已超时", 1, 1);
+    countDown(parseInt("${leftTime}"), ".cuttime-show2", "订单已超时", 1, 0);
+    //点击支付按钮
+    $("#btnpay").click(function(){
+        var balance = ${movie_account.balance};
     	var money = ${order.newMoney};
     	if(money > balance){
-alert('余额不足，请先到会员中心进行充值！');
-return;
-}
+            alert('余额不足，请先到会员中心进行充值！');
+            return;
+        }
     	ajaxRequest('order_pay','post',{order_sn: '${order.sn}'},function(rst){
-window.location.href = '/home/account/user-order-list';
-});
+            window.location.href = '/home/account/user-order-list';
+        });
     });
 });
 $(".goPay").overlay({
-closeOnClick: false,
-top: 'center',
-mask: {
-color: '#000',
-closeSpeed: 700,
-opacity: 0.7
+    closeOnClick: false,
+    top: 'center',
+    mask: {
+    color: '#000',
+    closeSpeed: 700,
+    opacity: 0.7
 },
     onBeforeLoad: function () {
 $('body').on('mousewheel', function (e) {

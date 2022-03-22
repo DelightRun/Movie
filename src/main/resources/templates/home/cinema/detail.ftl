@@ -47,29 +47,26 @@ display: none;
                 </div>
                 <div class="time-show">
                     <ul class="fn-clear">
-                       <#list cinemaHallSessionList as cinemaHallSession>
-                       <li><a href="javascript:void(0)" data-time="${cinemaHallSession.showDate}" onClick="selectDate(this)" >${cinemaHallSession.showDate}</a></li>
+                       <#list showDateList as showDate>
+                       <li><a href="javascript:void(0)" data-time="${showDate}" onClick="selectDate(this)" >${showDate}</a></li>
                        </#list>
                     </ul>
                     <span class="th">日期：</span>
                 </div>
             </div>
             <div class="film-show" data-time="" style="">
-
-
-
-                    <div class="film-screenings">
-                        <div class="film-info" id="current-movie" style="display:none;">
-                            <h3>
-                            	<span id="current-movie-name"></span>
-                            	<div id="current-movie-rate-star" style="margin: 0 5px;display: inline-block;" data-average="8.9" data-id="20"></div>
-                            	<em id="current-movie-rate">8.9</em>
-                            	<a href="" id="current-movie-href" target="_blank">查看影片详情</a></h3>
-                            <p></p>
-                            <p id="current-movie-directed-by"></p>
-                            <p id="current-movie-actor"></p>
-                        </div>
-                     </div>
+                <div class="film-screenings">
+                    <div class="film-info" id="current-movie" style="display:none;">
+                        <h3>
+                             <span id="current-movie-name"></span>
+                             <div id="current-movie-rate-star" style="margin: 0 5px;display: inline-block;" data-average="8.9" data-id="20"></div>
+                             <em id="current-movie-rate">8.9</em>
+                             <a href="" id="current-movie-href" target="_blank">查看影片详情</a></h3>
+                        <p></p>
+                        <p id="current-movie-directed-by"></p>
+                        <p id="current-movie-actor"></p>
+                    </div>
+                 </div>
             </div>
     </div>
     <div class="cinema-des-cinemascreenings pt30" id="scrollcinemades">
@@ -253,23 +250,23 @@ easing: "swing"
 });
 
 function selectDate(e){
-var date = $(e).attr('data-time');
+    var date = $(e).attr('data-time');
 	$(e).parent().siblings().find("a").removeClass('current');
 	$(e).addClass('current');
 	$.get("get_show_movie",{cid: ${cinema.id},showDate:date},function(data,status){
-$("#current-show-movie").remove();
-$(".film-show").prepend(data);
-$('#current-show-movie').flexslider({
-animation: "slide",
-controlNav: false,
-slideshow: false,
-itemWidth: 170,
-after: function (slider) {
-console.log(slider);
-}
-		});
-		//默认选中第一步电影
-		$(".film-img .slides li:first a").trigger('click');
+        $("#current-show-movie").remove();
+        $(".film-show").prepend(data);
+        $('#current-show-movie').flexslider({
+            animation: "slide",
+            controlNav: false,
+            slideshow: false,
+            itemWidth: 170,
+            after: function (slider) {
+                console.log(slider);
+            }
+        });
+        //默认选中第一步电影
+        $(".film-img .slides li:first a").trigger('click');
     });
 }
 function getMovieSession(mid){

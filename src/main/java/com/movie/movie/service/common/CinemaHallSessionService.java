@@ -2,7 +2,9 @@ package com.movie.movie.service.common;
 
 import com.movie.movie.bean.PageBean;
 import com.movie.movie.dao.common.CinemaHallSessionDao;
+import com.movie.movie.entity.common.Cinema;
 import com.movie.movie.entity.common.CinemaHallSession;
+import com.movie.movie.entity.common.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -105,7 +107,7 @@ public class CinemaHallSessionService {
      * @param movieId
      * @return
      */
-    public List<CinemaHallSession> findDistinctCinemaByMovieId(Long movieId) {
+    public List<Cinema> findDistinctCinemaByMovieId(Long movieId) {
         return cinemaHallSessionDao.findDistinctCinemaList(movieId);
     }
 
@@ -115,7 +117,7 @@ public class CinemaHallSessionService {
      * @param movieId
      * @return
      */
-    public List<CinemaHallSession> findDistinctShowDateByMovieId(Long movieId) {
+    public List<String> findDistinctShowDateByMovieId(Long movieId) {
         return cinemaHallSessionDao.findDistinctShowDateList(movieId);
     }
 
@@ -125,7 +127,7 @@ public class CinemaHallSessionService {
      * @param cinemaId
      * @return
      */
-    public List<CinemaHallSession> findDistinctShowDateByCinemaList(Long cinemaId) {
+    public List<String> findDistinctShowDateListByCinemaId(Long cinemaId) {
         return cinemaHallSessionDao.findDistinctShowDateByCinemaList(cinemaId);
     }
 
@@ -136,7 +138,7 @@ public class CinemaHallSessionService {
      * @param showDate
      * @return
      */
-    public List<CinemaHallSession> findDistinctMovieByCinemaList(Long cinemaId, String showDate) {
+    public List<Movie> findDistinctMovieListByCinemaId(Long cinemaId, String showDate) {
         return cinemaHallSessionDao.findDistinctMovieByCinemaList(cinemaId, showDate);
     }
 

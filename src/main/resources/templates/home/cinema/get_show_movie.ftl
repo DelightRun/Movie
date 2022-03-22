@@ -1,9 +1,9 @@
 <div class = "film-img flexslider_0" id="current-show-movie">
 <ul class="fn-clear slides">
-    <#list cinemaHallSessionList as cinemaHallSession>
+    <#list movieList as movie>
     <li>
-        <a href="javascript:void(0);" class="li-movie" data-id="${cinemaHallSession.movie.id}" data-name="${cinemaHallSession.movie.name}" data-rate="${cinemaHallSession.movie.rate!"0"}" data-directed-by="${cinemaHallSession.movie.directedBy}" data-actor="${cinemaHallSession.movie.actor}">
-            <img src="/photo/view?filename=${cinemaHallSession.movie.mainPic}" width="140" height="193" alt="${cinemaHallSession.movie.name}" />
+        <a href="javascript:void(0);" class="li-movie" data-id="${movie.id}" data-name="${movie.name}" data-rate="${movie.rate!"0"}" data-directed-by="${movie.directedBy}" data-actor="${movie.actor}">
+            <img src="/photo/view?filename=${movie.mainPic}" width="140" height="193" alt="${movie.name}" />
         </a>
         <span class="tip"></span>
     </li>

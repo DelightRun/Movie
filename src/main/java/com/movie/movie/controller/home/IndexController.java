@@ -172,4 +172,15 @@ public class IndexController {
         SessionUtil.set(SessionConstant.SESSION_ACCOUNT_LOGIN_KEY, account);
         return Result.success(true);
     }
+
+    /**
+     * 关于我们
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/about")
+    public String about(Model model) {
+        return "home/index/about";
+    }
 }

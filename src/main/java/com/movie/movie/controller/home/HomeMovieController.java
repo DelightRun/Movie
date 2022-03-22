@@ -73,8 +73,8 @@ public class HomeMovieController {
         Movie movie = movieService.findById(id);
         model.addAttribute("movie", movie);
         model.addAttribute("relatedMovieList", movieService.findRelatedList(movie, 6));
-        model.addAttribute("distinctCinemaHallSessionList", new ArrayList<CinemaHallSession>());// cinemaHallSessionService.findDistinctCinemaByMovieId(id));
-        model.addAttribute("distinctShowDateCinemaHallSessionList", new ArrayList<CinemaHallSession>());//cinemaHallSessionService.findDistinctShowDateByMovieId(id));
+        model.addAttribute("distinctCinemaList", cinemaHallSessionService.findDistinctCinemaByMovieId(id));
+        model.addAttribute("distinctShowDateList", cinemaHallSessionService.findDistinctShowDateByMovieId(id));
         model.addAttribute("commentList", movieCommentService.findByMovie(id));
         return "home/movie/detail";
     }

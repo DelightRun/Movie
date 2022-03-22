@@ -6,7 +6,6 @@ package com.movie.movie.dao.common;
 import com.movie.movie.entity.common.Order;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.springframework.data.jpa.repository.*;
-import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -31,8 +30,7 @@ public interface OrderDao extends JpaRepository<Order, Long>, JpaSpecificationEx
 
     List<Order> findByCinemaHallSessionIdAndStatusNot(Long cinemaHallSessionId, Integer status);
 
-    @Query("select o.sn from Order o where o.createTime <= :outTime and o.status = :status")
-    List<String> findSnList(@Param("outTime") Date outTime, @Param("status") Integer status);
+    List<Order> findByCreateTimeLessThanEqualAndStatus(Date outTime, Integer status);
 
     @Query("select o from Order o where o.cinemaHallSession.movie.id = :movieId and o.status = :status")
     List<Order> findByMovieIdAndStatus(@Param("movieId") Long movieId, @Param("status") Integer status);

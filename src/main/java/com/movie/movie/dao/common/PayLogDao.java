@@ -5,6 +5,7 @@ package com.movie.movie.dao.common;
 
 import com.movie.movie.entity.common.PayLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,11 @@ public interface PayLogDao extends JpaRepository<PayLog, Long> {
 
     List<PayLog> findByCreateTimeGreaterThan(Date createTime);
 
+    List<PayLog> findByCreateTimeLessThanEqualAndStatus(Date createTime, Integer status);
+
     Long countByStatus(Integer status);
+
+    @Modifying
+    @Query("update PayLog set status = :newStatus where sn = :sn and status = :oldStatus")
+    int updateStatus(@Param("sn") String sn, @Param("oldStatus") Integer oldStatus, @Param("newStatus") Integer newStatus);
 }

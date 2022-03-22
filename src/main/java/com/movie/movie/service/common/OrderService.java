@@ -112,8 +112,8 @@ public class OrderService {
      * @param outTime
      * @return
      */
-    public List<String> findTimeOutList(Date outTime) {
-        return orderDao.findSnList(outTime, Order.status_unpay);
+    public List<Order> findTimeOutList(Date outTime) {
+        return orderDao.findByCreateTimeLessThanEqualAndStatus(outTime, Order.status_unpay);
     }
 
     /**

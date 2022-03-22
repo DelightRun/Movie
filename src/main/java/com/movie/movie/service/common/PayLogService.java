@@ -86,6 +86,16 @@ public class PayLogService {
     }
 
     /**
+     * 获取所有的超时且未支付的订单
+     *
+     * @param outTime
+     * @return
+     */
+    public List<PayLog> findAllPayTimeout(Date outTime) {
+        return payLogDao.findByCreateTimeLessThanEqualAndStatus(outTime, PayLog.status_unpay);
+    }
+
+    /**
      * 分页查找支付记录
      *
      * @param payLog
@@ -193,5 +203,16 @@ public class PayLogService {
         } else {
             xLabel.put(day, integer + 1);
         }
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param payLog
+     * @return
+     */
+    @org.springframework.transaction.annotation.Transactional
+    public boolean cancelOrder(PayLog payLog) {
+        return payLogDao.updateStatus(payLog.getSn(), PayLog.status_unpay, PayLog.status_cancel) > 0;
     }
 }

@@ -62,7 +62,7 @@ public class HomeCinemaController {
     public String detail(Model model, @RequestParam(name = "id", required = true) Long id) {
         Cinema findById = cinemaService.findById(id);
         model.addAttribute("cinema", findById);
-        model.addAttribute("cinemaHallSessionList", cinemaHallSessionService.findDistinctShowDateByCinemaList(id));
+        model.addAttribute("showDateList", cinemaHallSessionService.findDistinctShowDateListByCinemaId(id));
         model.addAttribute("nearCinemaList", cinemaService.findAll(findById.getArea().getCityId()));
         model.addAttribute("commentList", cinemaCommentService.findByCinema(id));
         return "home/cinema/detail";
@@ -80,7 +80,7 @@ public class HomeCinemaController {
     public String getShowMovie(Model model,
                                @RequestParam(name = "cid", required = true) Long cid,
                                @RequestParam(name = "showDate", required = true) String showDate) {
-        model.addAttribute("cinemaHallSessionList", cinemaHallSessionService.findDistinctMovieByCinemaList(cid, showDate));
+        model.addAttribute("movieList", cinemaHallSessionService.findDistinctMovieListByCinemaId(cid, showDate));
         return "home/cinema/get_show_movie";
     }
 
