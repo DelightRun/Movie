@@ -103,18 +103,28 @@ public class IndexController {
      * @param password
      * @return
      */
-    @GetMapping(value = "/toregister")
-
-    public String register(String mobile, String password) {
-
+    @RequestMapping(value = "/toregister", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Boolean> register(@RequestParam(name = "mobile", required = true) String mobile,
+                                    @RequestParam(name = "password", required = true) String password
+    ) {
         //检查手机号是否已经注册
+        if (accountService.find(mobile) != null) {
+            return Result.error(CodeMsg.HOME_ACCOUNT_REGISTER_MOBILE_EXIST);
+        }
+
         Account account = new Account();
         account.setHeadPic("default-head-pic.jpg");
         account.setMobile(mobile);
         account.setPassword(password);
 
-        accountService.save(account);
-        return "redirect:index";
+        try {
+            accountService.save(account);
+            SessionUtil.set(SessionConstant.SESSION_ACCOUNT_LOGIN_KEY, account);
+            return Result.success(true);
+        } catch (Exception e) {
+            return Result.error(CodeMsg.HOME_ACCOUNT_REGISTER_ERROR);
+        }
     }
 
     /**
