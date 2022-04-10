@@ -156,7 +156,7 @@ action: function(){
 //备份操作
 function add(url){
 ajaxRequest(url,'post',{},function(rst){
-if(rst.code = = 0){
+if(rst.code == 0){
 showSuccessMsg('备份成功！',function(){
 window.location.reload();
 });
@@ -190,7 +190,7 @@ type:'POST',
 data:{ids:ids},
 dataType:'json',
 success:function(data){
-if(data.code = = 0){
+if(data.code == 0){
 showSuccessMsg('数据备份删除成功!', function(){
 window.location.reload();
 //$("input[type='checkbox']:checked").parents("tr").remove();

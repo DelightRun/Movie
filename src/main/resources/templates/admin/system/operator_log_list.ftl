@@ -200,7 +200,7 @@ type:'POST',
 data:{ids:ids},
 dataType:'json',
 success:function(data){
-if(data.code = = 0){
+if(data.code == 0){
 showSuccessMsg('操作日志删除成功!', function(){
 window.location.reload();
 //$("input[type='checkbox']:checked").parents("tr").remove();

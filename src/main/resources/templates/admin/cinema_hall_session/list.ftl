@@ -202,7 +202,7 @@ type:'POST',
 data:{id:id},
 dataType:'json',
 success:function(data){
-if(data.code = = 0){
+if(data.code == 0){
 showSuccessMsg('排片场次删除成功!', function(){
 $("input[type='checkbox']:checked").parents("tr").remove();
 })

@@ -32,7 +32,7 @@
     <div class="wrapper-main">
         <div class="hot-film-index pt30">
             <div class="title">
-                <span class="titb">推荐</span>
+                <span class="titb">为你推荐</span>
 
                 <span class="current"><em class="blue">1</em>/2</span>
             </div>
